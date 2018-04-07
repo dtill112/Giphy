@@ -1,0 +1,75 @@
+html{
+    background-color: aquamarine
+}
+
+h1{
+    text-align: center;
+    border: solid 7px black;
+    margin-top: 5%;
+}
+
+#gifAndRating{
+    
+    max-width: 100%;
+    background-color: rgb(177, 177, 177);
+    border: solid 5px rgb(201, 201, 201);
+    display: inline-block;
+    margin: 10px;
+    max-width: 375px;
+    max-height: 375px;
+
+}
+#titleAppend{
+  text-transform: capitalize;
+ }
+
+
+
+
+
+img{
+    min-width: 100%;
+    max-width: 100%;
+    background-color: rgb(177, 177, 177);
+
+    
+}
+
+#gifPlace{
+    max-width: 1200px;
+}
+
+#ratingDiv{
+    background-color: rgb(177, 177, 177);
+    margin-bottom: 9px;
+    text-align: center;
+   
+
+}
+
+#gifButtons{
+    width: 75%;
+    text-align: center;
+    align-self: center;
+    float: right;
+
+    
+
+}
+.container{
+    margin: 10px;
+    border: solid 2px black;
+    min-height: 2000px;
+    
+}
+
+#gifForm{
+    max-width: 20%;
+ float: left;
+   
+    
+
+}
+#searchHere{
+    margin-left: 3px;
+}

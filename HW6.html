@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>My Gif Loader</title>
+  <style type="text/css">
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    }
+  </style>
+  
+</head>
+
+<body>
+    <h1>GIF Lookup</h1>
+
+  <div class="container">
+
+    <!-- Rendered buttons will get dumped here  -->
+
+    <!-- Movies will get dumped Dere -->
+    <div id = "gifButtons"></div>
+    <form id = "gifForm">
+            <label for = "searchHere">Search for GIFS Here: </label> 
+    <input type="text" id="gifAdd" placeholder="GIF Keyword">
+    <input id = "gifSubmit" type="submit" value="Search for GIFS Here">
+        <label for = "gifAdd"></label>
+        <br>
+    </form>
+
+
+    <div id = "gifPlace"></div>
+
+
+  
+
+      <br>
+
+
+    
+    <link rel="stylesheet" type="text/css" href="Assets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+
+  
+      // Initial array of movies
+var topics  = ["Apple", "Banana", "Soup", "Chocolate", "Bacon", "Hamburger", "Taco", "Rice", "Peas", "Chicken"]
+var displayIMG = ""
+      // displayMovieInfo function re-renders the HTML to display the appropriate content
+        
+function makeButtons(){
+      for (var i = 0; i < topics.length; i++) {
+
+// Then dynamicaly generates buttons for each movie in the array
+// This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+var but = $("<button>");
+// Adds a class of movie to our button
+but.addClass("gifClass");
+// Added a data-attribute
+but.attr("gifdata", topics[i]);
+// Provided the initial button text
+but.text(topics[i]);
+// Added the button to the buttons-view div
+$("#gifButtons").append(but);
+}
+};
+
+makeButtons();
+
+
+
+    $("#gifSubmit").on("click", function(event) {
+
+event.preventDefault();
+
+var SearchGif = $("#gifAdd").val().trim();
+
+topics.push(SearchGif); 
+
+//emptying the user text field
+SearchGif= $("#gifAdd").val("");
+
+$("#gifButtons").empty();
+
+makeButtons();
+
+  
+});
+
+
+
+    $(document).on("click", ".gifClass", gitGIF);
+
+
+    function gitGIF(){
+
+      if($(".gifClass:not(:empty)")){
+          $("#gifPlace").empty();
+      }
+
+
+
+
+var SearchGif = $(this).attr("gifdata");
+/*var APIKey = 'GjkW0SU36IveiIJUe1sP48YITx1dAgR2'; */
+var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + SearchGif + "&api_key=GjkW0SU36IveiIJUe1sP48YITx1dAgR2&limit=10&rating=g";
+
+     
+
+$.ajax({
+    url: queryURL,
+    method: "GET"
+
+}).then(function(response) {
+    for(var i = 0; i<response.data.length;i++){
+
+        var gifs = response.data;
+        var still = gifs[i].images.fixed_height_still.url;
+        var active = gifs[i].images.fixed_height.url;
+        var rating = "<b><u>Rating</u>: </b>" + (response.data[i].rating).toUpperCase();
+        var upTitle = "<b><u>Title</u>: </b>" + response.data[i].title;
+        var label1 = $("<img>");
+        label1.attr({"active":active, "still":still, "src":still, "state":"still"});
+        label1.css({"fixed_height": "250px", "fixed_width": "250px"});
+
+        var placeRating = $("<div id='ratingDiv'>" + rating + "</div>");
+        var appendTitle = $("<div id='titleAppend'>" + upTitle + "</div>");
+
+        $(placeRating).prepend(appendTitle);
+
+        var wholeGif = $("<div id='gifAndRating'>" + "</div>");
+        $(wholeGif).append(placeRating, label1);
+        $("#gifPlace").append(wholeGif);
+		
+			
+        
+			label1.addClass("GifImage");
+			$("#gifPlace").append(wholeGif);
+           
+      
+			
+        
+        $(label1).on("click", function(event){
+            var state = $(this).attr("state");
+            var source = $(this).attr("src");
+                if(state == "still"){
+                    
+                    $(this).attr("src", $(this).attr("active"));
+                $(this).attr("state", "active"); }
+                else {
+
+                $(this).attr("src", $(this).attr("still"));
+                $(this).attr("state", "still"); } 
+            });
+        }
+   });
+ 
+}
+
+    </script>
+  </div>
+</body>
+
+</html>
